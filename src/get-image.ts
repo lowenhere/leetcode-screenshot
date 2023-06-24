@@ -38,7 +38,9 @@ const getImage = async (problem: string): Promise<Buffer> => {
   const height = await content.evaluate((el) => el.scrollHeight);
   await page.setViewport({ width: VIEWPORT_WIDTH, height });
 
-  const buffer = (await content.screenshot()) as Buffer;
+  const buffer = (await content.screenshot({
+    type: "jpeg",
+  })) as Buffer;
   await browser.close();
 
   return buffer;

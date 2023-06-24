@@ -24,7 +24,7 @@ app.get("/leetcode-screenshot", async (req: Request, res: Response) => {
 
   try {
     const image = await getImage(match[1]);
-    res.set("Content-Type", "image/png");
+    res.set("Content-Type", "image/jpeg");
     return res.send(image);
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
