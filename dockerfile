@@ -10,6 +10,11 @@ COPY package*.json ./
 # Install project dependencies
 RUN npm ci
 
+# create image_cache dir and chown it
+RUN mkdir image_cache
+RUN chown -R pptruser image_cache
+RUN chgrp -R pptruser image_cache
+
 # Copy the rest of the application code
 COPY tsconfig.json ./tsconfig.json
 COPY src ./src
