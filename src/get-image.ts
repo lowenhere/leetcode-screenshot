@@ -21,10 +21,11 @@ const getImage = async (problem: string): Promise<Buffer> => {
   try {
     await page.goto(url, {
       waitUntil: "networkidle2",
-      timeout: 10000,
     });
   } catch (e) {
     await browser.close();
+    console.error(`error navigating to ${url}`);
+    console.error(String(e));
     throw new Error(`could not navigate to the page ${url}`);
   }
 
