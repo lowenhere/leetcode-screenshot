@@ -11,3 +11,5 @@ services:
     cap_add:
       - SYS_ADMIN
     restart: always
+    volumes:
+      - ./image_cache:/home/pptruser/leetcode-screenshot/image_cache
