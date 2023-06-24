@@ -1,0 +1,19 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore the dist directory (output of TypeScript compilation)
+dist/
+
+# Ignore any .env files (environment-specific configuration files)
+.env
+
+# Ignore any log files
+*.log
+
+# Ignore editor and IDE specific files
+.vscode/
+.idea/
+
+# Ignore system and temporary files
+.DS_Store
+Thumbs.db
