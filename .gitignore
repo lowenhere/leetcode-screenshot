@@ -17,3 +17,6 @@ dist/
 # Ignore system and temporary files
 .DS_Store
 Thumbs.db
+
+# Ignore image cache content
+image_cache/*
