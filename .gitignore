@@ -18,5 +18,5 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Ignore image cache content
-image_cache/*
+# Ignore image cache
+image_cache
