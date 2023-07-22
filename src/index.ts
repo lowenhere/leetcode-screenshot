@@ -6,6 +6,7 @@ import morgan from "morgan";
 import getImage from "./get-image";
 
 const CACHE_DIR = path.join(__dirname, "../image_cache");
+const HTML_FILE_PATH = path.join(__dirname, "../public/index.html");
 
 const app = express();
 const PORT = 3000;
@@ -15,8 +16,7 @@ app.use(morgan("tiny"));
 app.get("/leetcode-screenshot", async (req: Request, res: Response) => {
   const { url } = req.query;
   if (!url) {
-    const message = "missing leetcode problem url";
-    return res.status(500).send(message);
+    return res.sendFile(HTML_FILE_PATH);
   }
 
   const regex = /leetcode.com\/problems\/([^/]+)/;

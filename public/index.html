@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leetcode Screenshot</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #241424;
+            color: #fff;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 500px;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4caf50; /* Set the button background color to match the theme */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Set the button background color on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Leetcode Screenshot</h1>
+    <form action="/leetcode-screenshot" method="GET">
+        <input type="text" id="leetcode-url" name="url" required placeholder="Enter a leetcode.com URL">
+        <button type="submit">Get Screenshot</button>
+    </form>
+</body>
+</html>

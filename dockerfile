@@ -10,7 +10,7 @@ COPY package*.json ./
 # Install project dependencies
 RUN npm ci
 
-# create image_cache dir and chown it
+# Create image_cache dir and chown it
 RUN mkdir image_cache
 RUN chown -R pptruser image_cache
 RUN chgrp -R pptruser image_cache
@@ -21,6 +21,9 @@ COPY src ./src
 
 # Build TypeScript code
 RUN npm run build
+
+# Copy the html file
+COPY public ./public
 
 # Expose the port that the server will listen on
 EXPOSE 3000
