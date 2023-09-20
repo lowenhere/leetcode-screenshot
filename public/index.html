@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Leetcode Screenshot</title>
+    <link rel="icon" type="image/png" href="/leetcode-screenshot/icon.png" />
+
+    <meta property="og:title" content="Leetcode Screenshot" />
+    <meta property="og:description" content="Capture Leetcode challenges with ease! Get high-quality screenshots of your favorite coding problems and daily questions." />
+    <meta property="og:image" content="/leetcode-screenshot/icon.png" />
+
     <style>
         body {
             font-family: sans-serif;
@@ -25,18 +32,24 @@
             margin-bottom: 10px;
         }
 
-        input {
+        input,
+        select {
             width: 500px;
+            height: 36px;
+            /* Match the height of the text input */
             padding: 8px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
+            /* Include padding and borders in the specified width and height */
         }
 
         button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #4caf50; /* Set the button background color to match the theme */
+            background-color: #4caf50;
+            /* Set the button background color to match the theme */
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -44,15 +57,66 @@
         }
 
         button:hover {
-            background-color: #45a049; /* Set the button background color on hover */
+            background-color: #45a049;
+            /* Set the button background color on hover */
         }
     </style>
 </head>
+
 <body>
     <h1>Leetcode Screenshot</h1>
     <form action="/leetcode-screenshot" method="GET">
         <input type="text" id="leetcode-url" name="url" required placeholder="Enter a leetcode.com URL">
         <button type="submit">Get Screenshot</button>
     </form>
+
+    <p>or get a daily question</p>
+
+    <form action="/leetcode-screenshot" method="GET">
+        <select id="question-dropdown" name="url">
+            <!-- Dropdown options will be populated dynamically using JavaScript -->
+        </select>
+        <button type="submit">Get Screenshot</button>
+    </form>
+
+    <script>
+        // Function to fetch daily questions based on the current date
+        async function fetchDailyQuestions() {
+            const currentDate = new Date();
+            const month = currentDate.getUTCMonth() + 1; // Months are zero-indexed, so add 1
+            const year = currentDate.getUTCFullYear();
+
+            const endpoint = `/leetcode-screenshot/get-dailies?month=${month}&year=${year}`;
+
+            try {
+                const response = await fetch(endpoint);
+
+                if (!response.ok) {
+                    console.error("Failed to fetch daily questions.");
+                    return;
+                }
+
+                const data = await response.json();
+                const questionDropdown = document.getElementById("question-dropdown");
+
+                // Sort the questions in descending chronological order
+                data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                // Populate the dropdown with daily questions
+                data.forEach(challenge => {
+                    const option = document.createElement("option");
+                    option.value = "https://leetcode.com" + challenge.link;
+                    option.textContent = `${challenge.date} - ${challenge.question.title}`;
+                    questionDropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Error fetching daily questions:", error);
+            }
+        }
+
+        // Call the function to fetch daily questions when the page loads
+        window.addEventListener("load", fetchDailyQuestions);
+    </script>
 </body>
+
 </html>
