@@ -2,8 +2,9 @@ import puppeteer from "puppeteer";
 
 const VIEWPORT_WIDTH = 1920;
 const VIEWPORT_HEIGHT = 1080;
-const PROBLEM_CONTENT_SELECTOR =
-  "#qd-content > div.h-full.flex-col.ssg__qd-splitter-primary-w > div > div > div > div.flex.h-full.w-full.overflow-y-auto.rounded-b > div > div";
+
+const PROBLEM_CONTENT_SELECTOR = ".flexlayout__tab";
+const ADS_SELECTOR = ".group\\/ads";
 
 const getImage = async (problem: string): Promise<Buffer> => {
   const browser = await puppeteer.launch({
@@ -14,11 +15,19 @@ const getImage = async (problem: string): Promise<Buffer> => {
     },
   });
 
-  const url = `https://leetcode.com/problems/${problem}`;
+  const baseurl = "https://leetcode.com";
+  const url = `${baseurl}/problems/${problem}`;
 
   const page = await browser.newPage();
-
   try {
+    // navigate to leetcode.com and set localstorage
+    // to skip the tutorial dialog
+    await page.goto(baseurl);
+    await page.evaluate(() => {
+      localStorage.setItem("dynamicIdeLayoutGuide", "true");
+    });
+
+    // go to the question page
     await page.goto(url, {
       waitUntil: "networkidle2",
     });
@@ -35,6 +44,16 @@ const getImage = async (problem: string): Promise<Buffer> => {
     throw new Error(`leetcode problem content element not found on ${url}`);
   }
 
+  // delete ads
+  await page.evaluate((selector) => {
+    const el = document.querySelector(selector);
+    if (el === null) {
+      return;
+    }
+    el.remove();
+  }, `${PROBLEM_CONTENT_SELECTOR} ${ADS_SELECTOR}`);
+
+  // get a full-height image
   const height = await content.evaluate((el) => el.scrollHeight);
   await page.setViewport({ width: VIEWPORT_WIDTH, height });
 
